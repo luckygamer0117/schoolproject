@@ -1,0 +1,12 @@
+public class Giveadvice {
+	
+	public static void main (string [] args) {
+		System.out.println ("Programs can be easy or"); 
+		System.out.println ("difficult to read, depending");
+		System.out.println ("upon their format.");
+		System.out.println ();
+		System.out.println ("Everyone, including yourseld,");
+		System.out.println ("will be happier if your choose");
+		System.out.println ("to format your programs.");
+	}
+}
