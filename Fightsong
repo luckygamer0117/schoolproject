@@ -1,0 +1,34 @@
+public class Fightsong {
+	public static void main (String []args) {
+		
+		lineOne();
+		lineTwo();
+		System.out.println ();
+		lineOne();
+		lineTwo();
+		lineThree();
+		System.out.println ("In the West.");
+		lineOne();
+		lineTwo();
+		System.out.println ();
+		lineOne();
+		lineTwo();
+		lineThree();
+		System.out.println ("in the West.");
+		lineOne();
+		lineTwo();
+		System.out.println ();
+		lineOne();
+		lineTwo();
+		
+	}
+	public static void lineOne () {
+		System.out.println ("Go, team, go!");
+	}
+	public static void lineTwo () {
+		System.out.println ("You can do it.");
+	}
+	public static void lineThree () {
+		System.out.println ("You're the best,");
+	}
+}
