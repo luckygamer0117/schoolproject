@@ -1,0 +1,56 @@
+public class Programingprojectfive {   
+
+public static final int HEIGHT= 5;
+
+public static final int TOTAL= HEIGHT*5;
+
+public static void main(String[] args){
+   
+    for(int i=1; i<=HEIGHT; i++){
+
+        for(int j=1; j<=TOTAL+(i*(-5)); j++){ 
+            System.out.print(" ");
+        }
+        printTop();
+
+        for(int j=1; j<=(i-1)*5; j++){ 
+            System.out.print(" ");
+        }
+        System.out.println("*");
+
+        for(int j=1; j<=TOTAL+(i*(-5)); j++){ 
+            System.out.print(" ");
+        }
+        printMiddle();
+
+        for(int j=1; j<=(i-1)*5; j++){ 
+            System.out.print(" ");
+        }
+        System.out.println("*");
+
+        for(int j=1; j<=TOTAL+(i*(-5)); j++){ 
+            System.out.print(" ");
+        }
+        printBottom();
+
+        for(int j=1; j<=(i-1)*5; j++){ 
+            System.out.print(" ");
+        }
+        System.out.println("*");            
+    }
+
+    for(int i=1; i<= TOTAL+7; i++){
+        System.out.print("*");
+    }
+}   
+
+public static void printTop() {
+    System.out.print("  o  ******");
+}
+public static void printMiddle() {
+    System.out.print(" /|\\ *     ");
+}
+public static void printBottom() {
+    System.out.print(" / \\ *     ");
+}
+}
