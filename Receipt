@@ -1,0 +1,18 @@
+// This program computes the total amount owed for a meal,
+// assuming 8% tax and a 15% tip.
+
+public class Receipt {
+  
+  public static void main(String[] args) {
+    
+    int subtotal = 38 + 40 + 30;
+    double tax = .08;
+    double tip = .15;
+    double total = subtotal + tax + tip;
+    
+    System.out.println ("subtotal:" + subtotal);
+    System.out.println ("tax:" + subtotal * tax);
+    System.out.println ("Tip:" + subtotal * tip);
+    System.out.println ("Total:" + total);
+	}              
+}
