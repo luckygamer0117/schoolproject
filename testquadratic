@@ -1,0 +1,13 @@
+public class testquadratic {
+	public stativ void main (String []args) {
+		quadratic (1,-7,12);
+	}
+	public stativ void quadratic (double a, double b, double c) {
+		double root 1=0;
+		double root 2=0;
+		root1 = ((-b)+ Math.sqrt (math.pow(b,2) - 4 *a*c))/(2*a);
+		root2 = ((-b) - Math.sqrt (Math.pow(b,2) -4 *a*c))/(2*a);
+		System.out.println("The quadratic (1,-7,12) equation of first root = " + root1);
+		System.out.println("The quadratic (1,-7,12) equation of Second root =" +root2);
+	}
+}
