@@ -1,0 +1,53 @@
+// Question: draw a house on a lawn, with at least one tree.
+// Start with a deep blue sky with some white pixels as stars.
+// Extra credit: Then animate with sun rise (fade blue to regular blue).
+// DrawingPanel.setPixel (x, y, color)
+
+import java.awt.*;
+
+public class draw {
+	public static void main (String []args) {
+		DrawingPanel panel = new DrawingPanel (200,200);
+		Graphics g = panel.getGraphics ();
+		
+		//back ground colo
+		Color darkBlue = new Color (0,102,204);
+		panel.setBackground (darkBlue);
+		
+		//house
+		g.setColor (Color.RED);
+		g.fillRect (120,80,51,51);
+		
+		//house door
+		g.setColor (Color.BLACK);
+		g.fillRect (130,95,18,40);
+		
+		//house window
+		g.setColor (Color.YELLOW);
+		g.fillRect (155,100,11,11);
+		
+		//roof
+		Polygon poly = new Polygon ();
+		g.setColor (Color.BLACK);
+		poly.addPoint (117,80);
+		poly.addPoint (145,50);
+		poly.addPoint (173,80);
+		g.fillPolygon (poly);
+		
+		//grass
+		Color grass = new Color (0,152,0);
+		g.setColor (grass);
+		g.fillRect (0,130,200,70);
+		
+		//darker green for tree
+		Color green = new Color (0,102,0);
+		g.setColor (green);
+		g.fillOval (20,20,40,70);
+		
+		//brown for tree
+		Color brown = new	 Color (102,51,0);
+		g.setColor (brown);
+		g.fillRect (35,89,10,41);
+		
+	}
+}
