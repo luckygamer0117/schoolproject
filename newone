@@ -1,0 +1,78 @@
+// Question: draw a house on a lawn, with at least one tree.
+// Start with a deep blue sky with some white pixels as stars.
+// Extra credit: Then animate with sun rise (fade blue to regular blue).
+// DrawingPanel.setPixel (x, y, color)
+
+import java.awt.*;
+
+public class drawingone {
+	public static void main (String []args) {
+		DrawingPanel panel = new DrawingPanel (200,200);
+		Graphics g = panel.getGraphics ();
+		
+		//back ground color
+		Color darkBlue = new Color (0,102,204);
+		panel.setBackground (darkBlue);
+		
+		printSun (g, 10,120);
+		
+		//grass
+		Color grass = new Color (0,152,0);
+		g.setColor (grass);
+		g.fillRect (0,130,200,70);
+		
+		//printSun (g, 60,50);
+		
+		//printSun (g, 140,0);
+		
+		printTree (g,20,20);
+		
+		printHouse (g,120,79);	
+
+	}
+		
+		public static void printTree (Graphics g, int x, int y){
+
+			//darker green for tree
+			Color green = new Color (0,102,0);
+			g.setColor (green);
+			g.fillOval (x,y,40,70);
+		
+			//brown for tree
+			Color brown = new	 Color (102,51,0);
+			g.setColor (brown);
+			g.fillRect (x +15 ,y + 69,10,41);
+		
+		}
+		
+		public static void printHouse (Graphics g, int x, int y) {
+			
+			//house
+			g.setColor (Color.RED);
+			g.fillRect (x,y,51,51);
+		
+			//house door
+			g.setColor (Color.BLACK);
+			g.fillRect (x+10,y+15,18,36);
+			
+			//house window
+			g.setColor (Color.YELLOW);
+			g.fillRect (x+35,y+20,11,11);
+		
+			//roof
+			Polygon poly = new Polygon ();
+			g.setColor (Color.BLACK);
+			poly.addPoint (x-3,y);  //left
+			poly.addPoint (x+25,y-31);  //top
+			poly.addPoint (x+53,y);  //right
+			g.fillPolygon (poly);	
+		}
+		
+		public static void printSun (Graphics g, int x, int y) {
+			
+			//PRAISE THE SUN
+			g.setColor (Color.ORANGE);
+			g.fillOval (x,y,51,51);
+
+		}
+}
