@@ -1,0 +1,141 @@
+import java.awt.*;
+
+public class one {
+  
+	public static void main( String[] args ) {
+		DrawingPanel panel = new DrawingPanel(400, 400);
+		Graphics g = panel.getGraphics();
+	
+		panel.setBackground (Color.CYAN);
+  
+		//single box
+		drawCircles( g, 0, 0, 100, 5 );
+		
+		// left mid box 5x5
+		//top row
+		drawCircles( g, 10, 120, 24, 4);
+		drawCircles( g, 35, 120, 24, 4);
+		drawCircles( g, 60, 120, 24, 4);
+		drawCircles( g, 85, 120, 24, 4);
+		drawCircles( g, 110, 120, 24, 4);
+		
+		drawCircles( g, 10, 145, 24, 4);
+		drawCircles( g, 35, 145, 24, 4);
+		drawCircles( g, 60, 145, 24, 4);
+		drawCircles( g, 85, 145, 24, 4);
+		drawCircles( g, 110, 145, 24, 4);
+		
+		drawCircles( g, 10, 170, 24, 4);
+		drawCircles( g, 35, 170, 24, 4);
+		drawCircles( g, 60, 170, 24, 4);
+		drawCircles( g, 85, 170, 24, 4);
+		drawCircles( g, 110, 170, 24, 4);
+		
+		drawCircles( g, 10, 195, 24, 4);
+		drawCircles( g, 35, 195, 24, 4);
+		drawCircles( g, 60, 195, 24, 4);
+		drawCircles( g, 85, 195, 24, 4);
+		drawCircles( g, 110, 195, 24, 4);
+		
+		drawCircles( g, 10, 220, 24, 4);
+		drawCircles( g, 35, 220, 24, 4);
+		drawCircles( g, 60, 220, 24, 4);
+		drawCircles( g, 85, 220, 24, 4);
+		drawCircles( g, 110, 220, 24, 4);
+		
+		//6x6 top right
+		//top row
+		drawCircles( g, 150, 20, 40, 5);
+		drawCircles( g, 190, 20, 40, 5);
+		drawCircles( g, 230, 20, 40, 5);
+		drawCircles( g, 270, 20, 40, 5);
+		drawCircles( g, 310, 20, 40, 5);
+		drawCircles( g, 350, 20, 40, 5);
+		//bot row
+		drawCircles( g, 190, 220, 40, 5);
+		drawCircles( g, 230, 220, 40, 5);
+		drawCircles( g, 270, 220, 40, 5);
+		drawCircles( g, 310, 220, 40, 5);
+		drawCircles( g, 350, 220, 40, 5);
+		//left column
+		drawCircles( g, 150, 60, 40, 5);
+		drawCircles( g, 150, 100, 40, 5);
+		drawCircles( g, 150, 140, 40, 5);
+		drawCircles( g, 150, 180, 40, 5);
+		drawCircles( g, 150, 220, 40, 5);
+		//right column
+		drawCircles( g, 350, 60, 40, 5);
+		drawCircles( g, 350, 100, 40, 5);
+		drawCircles( g, 350, 140, 40, 5);
+		drawCircles( g, 350, 180, 40, 5);
+		//mid top row
+		drawCircles( g, 190, 60, 40, 5);
+		drawCircles( g, 230, 60, 40, 5);
+		drawCircles( g, 270, 60, 40, 5);
+		drawCircles( g, 310, 60, 40, 5);
+		
+		drawCircles( g, 190, 100, 40, 5);
+		drawCircles( g, 230, 100, 40, 5);
+		drawCircles( g, 270, 100, 40, 5);
+		drawCircles( g, 310, 100, 40, 5);
+		
+		drawCircles( g, 190, 140, 40, 5);
+		drawCircles( g, 230, 140, 40, 5);
+		drawCircles( g, 270, 140, 40, 5);
+		drawCircles( g, 310, 140, 40, 5);
+		
+		drawCircles( g, 190, 180, 40, 5);
+		drawCircles( g, 230, 180, 40, 5);
+		drawCircles( g, 270, 180, 40, 5);
+		drawCircles( g, 310, 180, 40, 5);
+		
+		//bottom box 3x3
+		// top row
+		drawCircles( g, 130, 275, 36, 3);
+		drawCircles( g, 165, 275, 36, 3);
+		drawCircles( g, 200, 275, 36, 3);
+		// bot row
+		drawCircles( g, 130, 345, 36, 3);
+		drawCircles( g, 165, 345, 36, 3);
+		drawCircles( g, 200, 345, 36, 3);
+		//left column
+		drawCircles( g, 130, 310, 36, 3);
+		drawCircles( g, 130, 345, 36, 3);
+		//right column
+		drawCircles( g, 200, 310, 36, 3);
+		//mid
+		drawCircles( g, 165, 310, 36, 3);
+  
+}
+  
+		// draws one squared circle figure.
+	public static void drawCircles( Graphics g, int x, int y,
+		int width, int numCircles ) {   
+		// draw square background
+		g.setColor( Color.GREEN );
+		g.fillRect( x, y, width, width );
+  
+		// draw circles background
+		g.setColor( Color.YELLOW );
+		g.fillOval( x, y, width, width );
+  
+		// draw circles from outside to inside
+		g.setColor( Color.BLACK );
+		for( int i = 0; i < numCircles; i++ ) {
+			g.drawOval( x + i * width / (2 * numCircles),
+			y + i * width / (2 * numCircles),
+			width - i * width / numCircles,
+			width - i * width / numCircles);
+	}
+  
+  
+		// box it in
+		g.drawRect( x, y, width, width );
+  
+		// horizontal line through the middle
+		g.drawLine( x, y + width / 2, x+ width, y + width / 2 );
+  
+		// vertical line through the middle   
+		g.drawLine( x +width / 2, y, x + width / 2, y + width );
+}
+}
