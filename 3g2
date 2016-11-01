@@ -1,0 +1,91 @@
+import java.awt.*;
+
+public class problemtwo {
+  
+	public static void main( String[] args ) {
+		DrawingPanel panel = new DrawingPanel(200, 200);
+		Graphics g = panel.getGraphics();
+	
+		panel.setBackground (Color.WHITE);
+		//left top
+		drawRect (g, 10,10,50,50);
+		//left mid
+		drawRectthree (g, 10,60,50,50);
+		//left bot
+		drawRecttwo (g, 10,110,50,50);
+		
+		//mid top
+		drawRectthree (g, 60,10,50,50);
+		//mid mid
+		drawRecttwo (g, 60,60,50,50);
+		//mid bot
+		drawRect (g, 60,110,50,50);
+		
+		//right top
+		drawRecttwo (g, 110,10,50,50);
+		//right mid
+		drawRect (g, 110,60,50,50);
+		//right bot
+		drawRectthree (g, 110,110,50,50);
+		
+		
+	}
+  
+	// eyes
+	public static void drawRect( Graphics g, int x, int y,
+		int width, int height) {   
+		// draw square background
+		g.setColor( Color.BLACK );
+		g.drawRect( x, y, width, width );
+		//eye
+		g.drawOval( x+10, y+5, 15, 40 );
+		g.drawOval( x+30, y+5, 15, 40 );
+		//inner eye
+		g.fillOval( x+10, y+25, 15, 15 );
+		g.fillOval( x+30, y+25, 15, 15 );
+		}
+		
+	//i dont really like java	
+	public static void drawRecttwo( Graphics g, int x, int y,
+		int width, int height) {   
+		g.setColor( Color.BLACK );
+		g.drawRect( x, y, width, width );
+		g.drawString(" I", x+20, y+15);
+		g.drawString(" Love", x+10, y+25);
+		g.drawString(" Java", x+10, y+35);
+		}
+		
+	// box-ception
+	public static void drawRectthree( Graphics g, int x, int y,
+		int width, int height) {   
+		// draw square background
+		g.setColor( Color.BLACK );
+		g.drawRect( x, y, width, width );
+		
+		//left
+		g.drawRect( x, y, 5, 45);
+		g.drawRect( x+5, y+5, 5, 35);
+		g.drawRect( x+10, y+10, 5, 25);
+		g.drawRect( x+15, y+15, 5, 15);
+		
+		//right
+		g.drawRect( x+45, y+5, 5, 45);
+		g.drawRect( x+40, y+10, 5, 35);
+		g.drawRect( x+35, y+15, 5, 25);
+		g.drawRect( x+30, y+20, 5, 20);
+		
+		//top
+		g.drawRect( x+10, y+5, 35, 5);
+		g.drawRect( x+20, y+15, 15, 5);
+		
+		//bot
+		g.drawRect( x+15, y+30, 15, 5);
+		g.drawRect( x+10, y+35, 20, 5);
+		g.drawRect( x+5, y+40, 35, 5);
+		
+		//middle
+		g.drawRect( x+20, y+20, 5, 5);
+		g.drawRect( x+25, y+25, 5, 5);
+
+		}	
+}
