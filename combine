@@ -124,6 +124,9 @@ public class butt {
 				if (continueGame.equals("Y")) { 
 					winningHand = expand(winningHand);
 				}
+				else {
+					break;
+				}
 			} 
 			System.out.println();
 			System.out.println(" Select input:");
@@ -354,9 +357,7 @@ public class butt {
 					}
 					break;
 				}
-			
-			System.out.print("Continue? Y/N");
-			continueGame = scan.next();
+		
 			// Output the results of the round
 			System.out.println(" ====================================");
 			System.out.println();
@@ -365,6 +366,8 @@ public class butt {
 			System.out.format(scoreMsg, playerScore, computerScore);
 			System.out.println(" ====================================");
 		}
+		System.out.print("Continue? Y/N");
+		continueGame = scan.next();
 		results(winningHand);
 	}
 	
