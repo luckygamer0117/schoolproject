@@ -81,12 +81,21 @@ public class butt {
             System.out.printf("Round %2d : %6s%n",i +1 , w[i]);
         }
     }
+	
+	    public static String[] expand(String[] w ){
+         String[] w1 = new String[10 + w.length];
+         for(int i = 0; i < w.length; i++){
+             w1[i] = w[i];
+         }
+         return w1;
+    }
 
 	public static void playerAi() {
 		Scanner scan = new Scanner(System.in);		// The scanner allows user input
 		Random rand = new Random();					// The random number generator allows computer to throw a random hand
 				
 		int round = 0;
+		String continueGame = null; 
 		
 		// Initialize constants
 		final String ROCK = "rock";
@@ -111,7 +120,11 @@ public class butt {
 		// This is the main game loop!
 		while (true) 
 		{
-			if (round == 10) break; 
+			if (round == 10){
+				if (continueGame.equals("Y")) { 
+					winningHand = expand(winningHand);
+				}
+			} 
 			System.out.println();
 			System.out.println(" Select input:");
 			System.out.println(" \"rock\", \"paper\", \"scissors\", \"lizard\",\"spock\", or \"m\" for menu:  ");
@@ -342,7 +355,8 @@ public class butt {
 					break;
 				}
 			
-			
+			System.out.print("Continue? Y/N");
+			continueGame = scan.next();
 			// Output the results of the round
 			System.out.println(" ====================================");
 			System.out.println();
@@ -351,8 +365,7 @@ public class butt {
 			System.out.format(scoreMsg, playerScore, computerScore);
 			System.out.println(" ====================================");
 		}
-		
-			results(winningHand);
+		results(winningHand);
 	}
 	
 	public static void playerVersus() {
@@ -641,7 +654,6 @@ public class butt {
 					}
 					break;
 				}
-			
 			
 			// Output the results of the round
 			System.out.println(" ========================================");
