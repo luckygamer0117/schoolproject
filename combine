@@ -1,3 +1,5 @@
+//by jeffrey chen
+
 import java.util.Scanner;
 import java.lang.String;
 import java.util.Random;
@@ -35,6 +37,8 @@ public class butt {
 		System.out.println();
 		System.out.println("Thanks for playing!");
 	}
+	
+	// main menu
 	public static void displayMenu() {
 		System.out.printf("\n --------------------------------------------------");
 		System.out.printf("\n Now playing: Rock, Paper, Scissors, Lizard, Spock!");
@@ -46,10 +50,11 @@ public class butt {
 		System.out.printf("\n 3. Show rules");
 		System.out.printf("\n 4. Quit");
 		System.out.printf("\n");
-		System.out.printf("\n Made by Jeffrey Chen		              v7.0");
+		System.out.printf("\n Made by Jeffrey Chen		             v10.0");
 		System.out.printf("\n");
 	}
 	
+	// shows rules and stuff
 	public static void displayRule() {
 		Scanner scan = new Scanner(System.in);	
 		final String QUIT = "m";
@@ -75,21 +80,91 @@ public class butt {
 			}
 	}
 	
-	public static void results(String[] w){
+	// shows reults in array format
+	public static void results(String[][] w){
         System.out.println("The results are:");
+        System.out.printf("%20s %15s %15s %n", "Computer", "Player One", "Winning Play");
         for(int i = 0; i < w.length; i++){
-            System.out.printf("Round %2d : %6s%n",i +1 , w[i]);
+            System.out.printf("Round %2d : %7s %15s %15s %n",i+1 , w[i][0], w[i][1], w[i][2]);
         }
     }
 	
-	public static String[] expand(String[] w ){
-         String[] w1 = new String[10 + w.length];
+	// shows results in array format PvP
+	public static void resultsPvp(String[][] w){
+        System.out.println("The results are:");
+        System.out.printf("%20s %15s %15s %n", "Player Two", "Player One", "Winning Play");
+        for(int i = 0; i < w.length; i++){
+            System.out.printf("Round %2d : %7s %15s %15s %n",i+1 , w[i][0], w[i][1], w[i][2]);
+        }
+    }
+	
+	// expand array
+	public static String[][] expand(String[][] w ){
+         String[][] w1 = new String[10 + w.length][3];
          for(int i = 0; i < w.length; i++){
-             w1[i] = w[i];
+             w1[i][0] = w[i][0];
+             w1[i][1] = w[i][1];
+             w1[i][2] = w[i][2];
          }
          return w1;
     }
+    
+	//save the file name in the same directory 
+	public static void saveFile(String[][] w){
+        Scanner p = new Scanner(System.in);
+        try{
+            System.out.println("What do you want to save the game's name as?");
+            FileWriter fw = new FileWriter(p.next());
+            BufferedWriter bw = new BufferedWriter(fw);
+            for(int i = 0; i < w.length; i++){
+                bw.write( w[i][0] + " " + w[i][1] + " " + w[i][2]);
+                bw.newLine();
+            }
+            bw.close();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+    }
+	
+	// load previous game scores
+	public static String[][] prevGame(String gName){
+        String line = null;
+        String[][] game = new String[10][3];
+        int r = 0, b = 0;
+        try {
+            FileReader fileReader = 
+                new FileReader(gName);
+            
+            BufferedReader bufferedReader = 
+                new BufferedReader(fileReader);
 
+            while((line = bufferedReader.readLine()) != null) {
+                if(r >= 10){
+                    r = 0;
+                    b++;
+                    game = expand(game);
+                }
+                game[r + b * 10][0] = line.substring(0, line.indexOf(" "));
+                line = line.substring(line.indexOf(" ")+ 1);
+                game[r + b * 10][1] = line.substring(0, line.indexOf(" "));
+                line = line.substring(line.indexOf(" ")+ 1);
+                game[r + b * 10][2] = line.substring(0);
+                r++;
+            }   
+
+            // Always close files.
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println("Cannot find the game save: " + gName);           
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        return game;
+    }
+    
+	// main game: ai vs player
 	public static void playerAi() {
 		Scanner scan = new Scanner(System.in);		// The scanner allows user input
 		Random rand = new Random();					// The random number generator allows computer to throw a random hand
@@ -109,7 +184,7 @@ public class butt {
 		final String WIN_MSG = " You won!";
 		final String TIE_MSG = " Tie!";
 
-		String[] winningHand = new String[10];
+		String[][] winningHand = new String[10][3];
 		String computerHand = "";
 		String playerHand = "";
 		String roundResult = " You threw %s, computer threw %s\n";
@@ -117,6 +192,14 @@ public class butt {
 		String winnerMsg = "";
 		int playerScore = 0;
 		int computerScore = 0;
+		
+		System.out.println("Load save?: Y/N");
+		if (scan.next().equals("Y")) {
+			System.out.println("Name of game save?");
+			winningHand = prevGame(scan.next());
+			game = winningHand.length/10;
+			winningHand = expand(winningHand);
+		}
 		
 		// This is the main game loop!
 		while (true) 
@@ -210,28 +293,36 @@ public class butt {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					break;
@@ -241,28 +332,36 @@ public class butt {
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					break;
@@ -272,58 +371,74 @@ public class butt {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					break;
 				case LIZARD:
 					if (playerHand.equals(ROCK))
 					{
-						winnerMsg = LOSS_MSG;
+						winnerMsg = WIN_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
-						winnerMsg = WIN_MSG;
+						winnerMsg = LOSS_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
-						winnerMsg = LOSS_MSG;
+						winnerMsg = WIN_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
-						winnerMsg = WIN_MSG;
+						winnerMsg = LOSS_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					break;
@@ -332,28 +447,36 @@ public class butt {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
-						winningHand[round+game*10]=computerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = computerHand;
+						winningHand[round+ game* 10][2] = computerHand;
 						round++;
 					}
 					break;
@@ -369,16 +492,19 @@ public class butt {
 			if (round==10) {
 				round=0;
 				game++;
-				System.out.print("Type in \"Y\" to continue.");
+				System.out.print("Continue?: Y/N");
 				System.out.println();
 				continueGame = scan.next();
 			}
 		}
 		results(winningHand);
+		saveFile(winningHand);
 	}
 	
+	// main game: PvP
 	public static void playerVersus() {
 		
+		//please let me pass 
 		Scanner scan = new Scanner(System.in);		// The scanner allows user input
 		Random rand = new Random();
 		
@@ -398,7 +524,7 @@ public class butt {
 		final String WIN_MSG = " You won!";
 		final String TIE_MSG = " Tie!";
 		
-		String[] winningHand = new String[10];
+		String[][] winningHand = new String[10][3];
 		String playertwoHand = "";
 		String playerHand = "";
 		String roundResult = " Player 1 threw %s, Player 2 threw %s\n";
@@ -406,7 +532,15 @@ public class butt {
 		String winnerMsg = "";
 		int playerScore = 0;
 		int playertwoScore = 0;
-	
+		
+		System.out.println("Load save?: Y/N");
+		if (scan.next().equals("Y")) {
+			System.out.println("Name of game save?");
+			winningHand = prevGame(scan.next());
+			game = winningHand.length/10;
+			winningHand = expand(winningHand);
+		}
+		
 	while (true) 
 		{
 			if (round == 0 && !continueGame.equals("as")){ 
@@ -524,28 +658,36 @@ public class butt {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					break;
@@ -555,28 +697,36 @@ public class butt {
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					break;
@@ -586,58 +736,74 @@ public class butt {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					break;
 				case LIZARD:
 					if (playerHand.equals(ROCK))
 					{
-						winnerMsg = LOSS_MSG;
+						winnerMsg = WIN_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
-						winnerMsg = WIN_MSG;
+						winnerMsg = LOSS_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
-						winnerMsg = WIN_MSG;
+						winnerMsg = LOSS_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					break;
@@ -646,28 +812,36 @@ public class butt {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
-						winningHand[round+game*10]=playerHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playerHand;
 						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = LOSS_MSG;
 						playertwoScore++;
-						winningHand[round+game*10]=playertwoHand;
+						winningHand[round+ game* 10][0] = playerHand;
+						winningHand[round+ game* 10][1] = playertwoHand;
+						winningHand[round+ game* 10][2] = playertwoHand;
 						round++;
 					}
 					break;
@@ -683,12 +857,13 @@ public class butt {
 			if (round==10) {
 				round=0;
 				game++;
-				System.out.print("Type in \"Y\" to continue.");
+				System.out.print("Continue?: Y/N");
 				System.out.println();
 				continueGame = scan.next();
 			}
 		}
-		results(winningHand);
+		resultsPvp(winningHand);
+		saveFile(winningHand);
 	}
 	
 }
