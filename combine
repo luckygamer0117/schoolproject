@@ -365,9 +365,11 @@ public class butt {
 			System.out.println(winnerMsg);
 			System.out.format(scoreMsg, playerScore, computerScore);
 			System.out.println(" ====================================");
+			if (round==10) {
+				System.out.print("Type in \"Y\" to continue.");
+				continueGame = scan.next();
+			}
 		}
-		System.out.print("Continue? Y/N");
-		continueGame = scan.next();
 		results(winningHand);
 	}
 	
@@ -377,6 +379,7 @@ public class butt {
 		Random rand = new Random();
 		
 		int round = 0;
+		String continueGame = null; 
 		
 		// Initialize constants
 		final String ROCK = "rock";
@@ -401,7 +404,14 @@ public class butt {
 	
 	while (true) 
 		{
-			if (round == 10) break; 
+			if (round == 10){
+				if (continueGame.equals("Y")) { 
+					winningHand = expand(winningHand);
+				}
+				else {
+					break;
+				}
+			} 
 			System.out.println();
 			System.out.println(" Player 1 select input:");
 			System.out.println(" \"rock\", \"paper\", \"scissors\", \"lizard\",\"spock\", or \"m\" for menu:  ");
