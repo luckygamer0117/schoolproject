@@ -79,6 +79,8 @@ public class combineFile {
 		Scanner scan = new Scanner(System.in);		// The scanner allows user input
 		Random rand = new Random();					// The random number generator allows computer to throw a random hand
 				
+		int round = 0;
+		
 		// Initialize constants
 		final String ROCK = "rock";
 		final String PAPER = "paper";
@@ -90,7 +92,7 @@ public class combineFile {
 		final String WIN_MSG = " You won!";
 		final String TIE_MSG = " Tie!";
 
-		
+		String[] winningHand = new String[10];
 		String computerHand = "";
 		String playerHand = "";
 		String roundResult = " You threw %s, computer threw %s\n";
@@ -102,6 +104,7 @@ public class combineFile {
 		// This is the main game loop!
 		while (true) 
 		{
+			if (round == 10) break; 
 			System.out.println();
 			System.out.println(" Select input:");
 			System.out.println(" \"rock\", \"paper\", \"scissors\", \"lizard\",\"spock\", or \"m\" for menu:  ");
@@ -183,21 +186,29 @@ public class combineFile {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					break;
 					
@@ -206,21 +217,29 @@ public class combineFile {
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					break;
 					
@@ -229,21 +248,29 @@ public class combineFile {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					break;
 				case LIZARD:
@@ -251,21 +278,29 @@ public class combineFile {
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(SPOCK))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					break;
 				case SPOCK:
@@ -273,21 +308,29 @@ public class combineFile {
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(PAPER))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					if (playerHand.equals(SCISSORS))
 					{
 						winnerMsg = WIN_MSG;
 						playerScore++;
+						winningHand[round]=playerHand;
+						round++;
 					}
 					if (playerHand.equals(LIZARD))
 					{
 						winnerMsg = LOSS_MSG;
 						computerScore++;
+						winningHand[round]=computerHand;
+						round++;
 					}
 					break;
 				}
